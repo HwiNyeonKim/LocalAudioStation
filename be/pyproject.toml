@@ -1,0 +1,43 @@
+[project]
+name = "be"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "HwiNyeonKim",email = "z2b23173us@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi (>=0.115.8,<0.116.0)",
+    "uvicorn (>=0.34.0,<0.35.0)",
+    "sqlalchemy (>=2.0.38,<3.0.0)",
+    "mutagen (>=1.47.0,<2.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "ffmpeg (>=1.4,<2.0)",
+    "pydantic (>=2.10.6,<3.0.0)",
+    "flake8 (>=7.1.2,<8.0.0)",
+    "autopep8 (>=2.3.2,<3.0.0)",
+    "black (>=25.1.0,<26.0.0)",
+    "isort (>=6.0.0,<7.0.0)"
+]
+
+[tool.poetry]
+packages = [ { include = "app" } ]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+pytest-cov = "^6.0.0"
+pydub = "^0.25.1"
+devtools = "^0.12.2"
+
+[tool.black]
+target-version = ['py313']
+line-length = 79
+
+[tool.isort]
+profile = "black"
+line_length = 79
