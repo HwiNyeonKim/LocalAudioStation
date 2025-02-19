@@ -1,0 +1,16 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: local-audio-station-mysql
+    restart: unless-stopped
+    env_file:
+      - mysql.env
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    # TODO
+    # - BE, FE를 컨테이너화 한 다음 networks 추가
+
+volumes:
+  mysql_data:

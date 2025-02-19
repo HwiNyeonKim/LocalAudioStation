@@ -1,6 +1,7 @@
 **/__pycache__/**
 *.db
 *.log
+mysql.env
 .env
 .coverage
 .DS_Store
