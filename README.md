@@ -26,13 +26,23 @@
 1. Clone Project
 
     ```bash
-    gitn clone https://github.com/HwiNyeonKim/LocalAudioStation.git
+    git clone https://github.com/HwiNyeonKim/LocalAudioStation.git
+    cd LocalAudioStation
     ```
 
 2. Run BE
 
+    - MySQL 컨테이너 실행
+
     ```bash
-    cd be
+    cd docker
+    docker-compose up -d
+    ```
+
+    - BE 실행
+
+    ```bash
+    cd ../be
     poetry install
     poetry run uvicorn app.main:app --reload
     ```
