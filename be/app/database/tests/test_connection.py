@@ -18,9 +18,7 @@ from app.database.connection import DatabaseConnectionManager
 
 @patch("app.database.connection.create_engine")
 def test_database_connection_manager_init(create_engine_mock):
-    """
-    init_database_connection()이 create_engine을 적절히 호출하는지 테스트
-    """
+    """init_database_connection()이 create_engine을 적절히 호출하는지 테스트"""
     database_connection_manager = DatabaseConnectionManager()
     database_connection_manager._engine = None
 
@@ -33,8 +31,8 @@ def test_database_connection_manager_init(create_engine_mock):
 @patch("app.database.connection.sessionmaker")
 def test_session(sessionmaker_mock, create_engine_mock):
     """
-    sessionmaker가 올바르게 bind=mock_engine으로 호출되는지 테스트.
-    그리고 get_session()이 해당 sessionmaker 결과를 반환하는지 테스트.
+    - sessionmaker가 올바르게 bind=mock_engine으로 호출되는지 테스트
+    - get_session()이 해당 sessionmaker 결과를 반환하는지 테스트
     """
     engine_mock = MagicMock()
     create_engine_mock.return_value = engine_mock
@@ -57,9 +55,7 @@ def test_session(sessionmaker_mock, create_engine_mock):
 
 
 def test_singleton():
-    """
-    DatabaseConnectionManager가 정말로 singleton으로 동작하는지 테스트.
-    """
+    """DatabaseConnectionManager가 정말로 singleton으로 동작하는지 테스트"""
     manager_1 = DatabaseConnectionManager()
     manager_2 = DatabaseConnectionManager()
 
@@ -67,9 +63,7 @@ def test_singleton():
 
 
 def test_engine_before_init():
-    """
-    init_database_connection() 호출 이전 engine 접근시 RuntimeError 발생 테스트
-    """
+    """init_database_connection() 호출 이전 engine 접근시 RuntimeError 발생 테스트"""
     manager = DatabaseConnectionManager()
     manager._engine = None
     msg = "Database connection has not been initialized. Call init_database_connection() first"  # noqa
