@@ -1,4 +1,4 @@
-from app.models.song import Song
+from ..song import Song
 
 
 def test_create_song(test_db_session):
@@ -15,7 +15,7 @@ def test_create_song(test_db_session):
 
 
 def test_read_song(test_db_session):
-    """Song 테이블 데이터를 조회 테스트"""
+    """Song 테이블 데이터 조회 테스트"""
     song = Song(title="test_song2", duration=100, file_path="test_path")
     test_db_session.add(song)
     test_db_session.commit()

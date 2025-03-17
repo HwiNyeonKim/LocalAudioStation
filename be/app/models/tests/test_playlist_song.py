@@ -1,4 +1,4 @@
-from app.models.playlist_song import PlaylistSong
+from ..playlist_song import PlaylistSong
 
 
 def test_create_playlist_song(test_db_session):
@@ -18,7 +18,7 @@ def test_create_playlist_song(test_db_session):
 
 
 def test_read_playlist_song(test_db_session):
-    """PlaylistSong 테이블 데이터를 조회 테스트"""
+    """PlaylistSong 테이블 데이터 조회 테스트"""
     playlist_song = PlaylistSong(playlist_id=2, song_id=2)
     test_db_session.add(playlist_song)
     test_db_session.commit()

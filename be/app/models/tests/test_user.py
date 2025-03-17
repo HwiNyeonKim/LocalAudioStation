@@ -1,4 +1,4 @@
-from app.models.user import User
+from ..user import User
 
 
 def test_create_user(test_db_session):
@@ -15,7 +15,7 @@ def test_create_user(test_db_session):
 
 
 def test_read_user(test_db_session):
-    """User 테이블 데이터를 조회 테스트"""
+    """User 테이블 데이터 조회 테스트"""
     user = User(email="test2@gmail.com", password_hash="password")
     test_db_session.add(user)
     test_db_session.commit()

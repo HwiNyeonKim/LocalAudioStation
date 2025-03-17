@@ -16,7 +16,7 @@ def test_create_album(test_db_session):
 
 
 def test_read_album(test_db_session):
-    """Album 테이블 데이터를 조회 테스트"""
+    """Album 테이블 데이터 조회 테스트"""
     album = Album(title="test_album2", artist_id=2)
     test_db_session.add(album)
     test_db_session.commit()
