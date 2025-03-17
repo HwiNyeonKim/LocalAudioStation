@@ -18,7 +18,7 @@
 ## 기술 스택
 
 - **FE**: 추후 결정
-- **BE**: FastAPI, MySQL, SQLAlchemy
+- **BE**: FastAPI, SQLite, SQLAlchemy
 - **Deployment**: Docker (별도의 배포는 하지 않고 로컬에서 직접 실행)
 
 ## 설치 및 실행 방법 (예정)
@@ -31,15 +31,6 @@
     ```
 
 2. Run BE
-
-    - MySQL 컨테이너 실행
-
-    ```bash
-    cd docker
-    docker-compose up -d
-    ```
-
-    - BE 실행
 
     ```bash
     cd ../be
