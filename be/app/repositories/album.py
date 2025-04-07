@@ -80,4 +80,3 @@ def delete_album(db: Session, album: Album):
     """
     db.delete(album)
     db.commit()
-    return album

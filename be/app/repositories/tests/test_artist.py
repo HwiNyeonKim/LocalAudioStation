@@ -81,8 +81,7 @@ def test_delete_artist(test_db_session):
     test_name = "test_artist"
     artist = create_artist(test_db_session, name=test_name)
 
-    deleted_artist = delete_artist(test_db_session, artist)
-    assert deleted_artist == artist
+    delete_artist(test_db_session, artist)
 
     found_artist = (
         test_db_session.query(Artist).filter_by(name=test_name).first()

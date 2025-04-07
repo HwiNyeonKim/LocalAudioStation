@@ -72,4 +72,3 @@ def delete_artist(db: Session, artist: Artist):
     """
     db.delete(artist)
     db.commit()
-    return artist
