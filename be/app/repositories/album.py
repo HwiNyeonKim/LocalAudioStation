@@ -3,7 +3,9 @@ from sqlalchemy.orm import Session
 from app.models import Album
 
 
-def create_album(db: Session, title: str, artist_id: int, release_year: int):
+def create_album(
+    db: Session, title: str, artist_id: int, release_year: int
+) -> Album:
     """새로운 앨범을 생성하고 데이터베이스에 저장한다.
 
     Args:
@@ -11,6 +13,8 @@ def create_album(db: Session, title: str, artist_id: int, release_year: int):
         title (str)
         artist_id (int)
         release_year (int)
+    Returns:
+        Album
     """
     album = Album(title=title, artist_id=artist_id, release_year=release_year)
     db.add(album)
@@ -19,34 +23,34 @@ def create_album(db: Session, title: str, artist_id: int, release_year: int):
     return album
 
 
-def get_album_by_id(db: Session, album_id: int):
+def get_album_by_id(db: Session, album_id: int) -> Album | None:
     """앨범 정보를 조회한다.
 
     Args:
         db (Session)
         album_id (int)
     Returns:
-        Album
+        Album | None
     """
     # TODO: artist_id 등 다른 필드가 숫자가 아니라 정상적인 이름으로 돌아가는지 확인
     return db.query(Album).filter(Album.id == album_id).first()
 
 
-def get_album_by_artist_id(db: Session, artist_id: int):
+def get_albums_by_artist_id(db: Session, artist_id: int) -> list[Album]:
     """아티스트의 앨범 정보를 조회한다.
 
     Args:
         db (Session)
         artist_id (int)
     Returns:
-        Album
+        list[Album]
     """
     return db.query(Album).filter(Album.artist_id == artist_id).all()
 
 
 def update_album(
     db: Session, album: Album, title: str, artist_id: int, release_year: int
-):
+) -> Album:
     """앨범 정보를 업데이트한다.
 
     Args:

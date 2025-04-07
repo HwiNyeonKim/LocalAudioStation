@@ -6,8 +6,8 @@ from app.models.artist import Artist
 from ..album import (
     create_album,
     delete_album,
-    get_album_by_artist_id,
     get_album_by_id,
+    get_albums_by_artist_id,
     update_album,
 )
 
@@ -123,7 +123,7 @@ def test_get_album_by_artist_id(test_db_session, test_artist):
         release_year=test_release_year,
     )
 
-    found_albums = get_album_by_artist_id(test_db_session, test_artist.id)
+    found_albums = get_albums_by_artist_id(test_db_session, test_artist.id)
     assert found_albums is not None
     assert len(found_albums) == 2
     assert album_1 in found_albums
