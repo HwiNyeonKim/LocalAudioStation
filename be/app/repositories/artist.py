@@ -5,13 +5,23 @@ from app.models import Artist
 
 def create_artist(db: Session, name: str) -> Artist:
     """새로운 아티스트를 생성하고 데이터베이스에 저장한다.
+    - 아티스트의 이름은 고유해야 하며, 유효한 문자열이어야 한다.
 
     Args:
         db (Session)
         name (str)
     Returns:
         Artist
+    Raises:
+        ValueError: 동일한 이름의 아티스트가 이미 존재하거나, 이름이 유효하지 않을 경우
     """
+    if not name or name.isspace():
+        raise ValueError("Artist name cannot be empty or whitespace")
+
+    existing_artist = db.query(Artist).filter(Artist.name == name).first()
+    if existing_artist:
+        raise ValueError(f"Artist with name '{name}' already exists")
+
     artist = Artist(name=name)
     db.add(artist)
     db.commit()

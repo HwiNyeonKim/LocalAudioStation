@@ -26,6 +26,18 @@ def test_create_artist(test_db_session):
     assert created_artist == artist
 
 
+def test_create_artist_duplicate_name_failure(test_db_session):
+    """아티스트 생성 실패 테스트 - 중복된 이름
+
+    동일한 이름의 아티스트는 생성할 수 없다.
+    """
+    test_name = "test_artist"
+    create_artist(test_db_session, name=test_name)
+
+    with pytest.raises(ValueError):
+        create_artist(test_db_session, name=test_name)
+
+
 def test_get_artist_by_id(test_db_session):
     """아티스트 ID로 조회 테스트"""
     test_name = "test_artist"
