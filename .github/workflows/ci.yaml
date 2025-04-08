@@ -1,0 +1,98 @@
+name: CI Pipeline
+
+on:
+  pull_request:
+    # 새 커밋이 PR에 push될 때
+    types: [synchronize]
+    branches:
+      - main
+
+  # base branch가 업데이트될 떄
+  pull_request_target:
+    types: [closed]
+    branches:
+      - main
+
+jobs:
+  update-pr-base:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install GitHub CLI
+        run: sudo apt install gh jq -y
+
+      - name: Authenticate GitHub CLI
+        run: gh auth setup-git
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update base of child PRs
+        run: |
+          BASE_BRANCH="${{ github.event.pull_request.head.ref }}"
+          NEW_BASE="main"
+
+          gh pr list --base "$BASE_BRANCH" --state open --json number | jq '.[].number' | while read pr; do
+            echo "Updating PR #$pr to base: $NEW_BASE"
+            gh pr edit "$pr" --base "$NEW_BASE"
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  lint:
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./be
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install formatters
+        run: |
+          pip install autopep8 isort black
+
+      - name: Run formatters and check for diffs
+        run: |
+          autopep8 --in-place --recursive .
+          isort .
+          black .
+
+          if [[ -n $(git status --porcelain) ]]; then
+            echo "Lint failed: formatting changes required."
+            git status
+            git diff
+            exit 1
+          fi
+
+  test:
+    if: github.event.pull_request.draft == false
+    needs: lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./be
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run tests
+        run: poetry run pytest
+        env:
+          DATABASE_URL: sqlite:///local_audio_station.db
