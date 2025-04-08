@@ -64,7 +64,7 @@ def update_artist(db: Session, artist: Artist, name: str) -> Artist:
     Returns:
         Artist
     """
-    if not name:
+    if not name or name.isspace():
         raise ValueError("Artist name must be a valid string.")
 
     artist.name = name

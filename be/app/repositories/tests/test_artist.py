@@ -76,7 +76,8 @@ def test_update_artist(test_db_session):
     assert updated_artist_in_db == updated_artist
 
 
-def test_update_artist_failure(test_db_session):
+@pytest.mark.parametrize("invalid_name", ["", " ", "  ", None])
+def test_update_artist_failure(test_db_session, invalid_name):
     """아티스트 정보 업데이트 실패 테스트
 
     - 이름은 공란으로 만들 수 없다.
@@ -85,7 +86,7 @@ def test_update_artist_failure(test_db_session):
     artist = create_artist(test_db_session, name=test_name)
 
     with pytest.raises(ValueError):
-        update_artist(test_db_session, artist, name="")
+        update_artist(test_db_session, artist, name=invalid_name)
 
 
 def test_delete_artist(test_db_session):
