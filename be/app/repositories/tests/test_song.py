@@ -54,6 +54,16 @@ def test_create_song(test_db_session):
     assert created_song == song
 
 
+@pytest.mark.parametrize("invalid_title", ["", " ", "  ", None])
+def test_create_song_failure_invalid_name(test_db_session, invalid_title):
+    """노래 생성 실패 테스트 - 유효하지 않은 이름
+
+    빈 문자열, 공백, 또는 None은 유효하지 않은 이름으로 간주된다.
+    """
+    with pytest.raises(ValueError):
+        create_song(test_db_session, title=invalid_title, file_path="test")
+
+
 def test_get_song_by_id(test_db_session):
     """노래 ID로 조회 테스트"""
     test_title = "test_song"

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.models.song import Song
 
 
-# TODO: create_songs도 필요할 듯 하다. 추후 스캔 트리거 API 추가시 같이 구현하기
+# TODO: create_songs로 대체.
 def create_song(
     db: Session,
     title: str,
@@ -16,7 +16,7 @@ def create_song(
     favorite: bool = False,
     rating: int | None = None,
 ) -> Song:
-    """로컬 스토리지에서 스캔된 노래를 데이터베이스에 저장한다.
+    """로컬 스토리지에서 스캔된 노래의 데이터를 데이터베이스에 저장한다.
 
     Args:
         db (Session)
@@ -29,18 +29,16 @@ def create_song(
         play_count (int)
         favorite (bool)
         rating (int | None)
-
     Returns:
         Song
-
     Raises:
         ValueError: title이나 file_path가 없는 경우, 또는 rating이 1-5 범위를 벗어난 경우
     """
 
-    if not title:
-        raise ValueError("Title cannot be empty")
+    if not title or title.isspace():
+        raise ValueError("Title must be a valid string")
 
-    if not file_path:
+    if not file_path or file_path.isspace():
         raise ValueError("File path is required")
 
     if rating is not None and not (1 <= rating <= 5):
@@ -126,6 +124,9 @@ def update_song(
         rating (int | None)
     Returns:
         Song
+    Raises:
+        ValueError: 적어도 하나의 필드는 업데이트되어야 한다.
+        ValueError: rating이 1-5 범위를 벗어난 경우
     """
     if all(
         value is None
@@ -145,8 +146,8 @@ def update_song(
     if rating is not None and not (1 <= rating <= 5):
         raise ValueError("Rating must be between 1 and 5")
 
-    if title is not None and not title:
-        raise ValueError("Title cannot be empty")
+    if title is not None and (not title or title.isspace()):
+        raise ValueError("Title must be a valid string")
 
     if title is not None:
         song.title = title
