@@ -1,5 +1,6 @@
 import pytest
 
+from app.models import Playlist
 from app.repositories.playlist import (
     create_playlist,
     delete_playlist,
@@ -21,11 +22,12 @@ def test_create_playlist(test_db_session):
     assert playlist.name == name
 
 
-def test_create_playlist_with_empty_name(test_db_session):
+@pytest.mark.parametrize("invalid_name", ["", " ", "  ", None])
+def test_create_playlist_failure(test_db_session, invalid_name):
     """빈 이름으로 플레이리스트 생성 시 예외 발생 테스트"""
     # 빈 이름으로 플레이리스트 생성 시도
     with pytest.raises(ValueError):
-        create_playlist(test_db_session, user_id=1, name="")
+        create_playlist(test_db_session, user_id=1, name=invalid_name)
 
 
 def test_get_playlist_by_id(test_db_session):
@@ -110,3 +112,11 @@ def test_delete_playlist(test_db_session):
 
     # 플레이리스트 삭제
     delete_playlist(test_db_session, playlist)
+
+    # 삭제된 플레이리스트 검증
+    assert (
+        test_db_session.query(Playlist)
+        .filter(Playlist.id == playlist.id)
+        .first()
+        is None
+    )
