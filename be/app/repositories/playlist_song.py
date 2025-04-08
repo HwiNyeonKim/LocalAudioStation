@@ -12,9 +12,8 @@ def create_playlist_song(
 
     Args:
         db (Session)
-        playlist_id (int): 플레이리스트 ID
-        song_id (int): 노래 ID
-
+        playlist_id (int)
+        song_id (int)
     Returns:
         PlaylistSong
     """

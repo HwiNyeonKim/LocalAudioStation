@@ -1,5 +1,3 @@
-import pytest
-
 from app.models.playlist_song import PlaylistSong
 
 from ..playlist_song import (
