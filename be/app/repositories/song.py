@@ -110,6 +110,7 @@ def update_song(
     rating: int | None = None,
 ) -> Song:
     """노래 정보를 업데이트한다.
+    - file_path는 직접 업데이트를 할 수 없다. 새로 스캔된 경로를 가지고 create 해야 한다.
 
     Args:
         db (Session)

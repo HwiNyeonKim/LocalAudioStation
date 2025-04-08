@@ -286,6 +286,12 @@ def test_update_song_failure(test_db_session):
         update_song(test_db_session, song, title="")
 
     with pytest.raises(ValueError):
+        update_song(test_db_session, song, title=" ")
+
+    with pytest.raises(ValueError):
+        update_song(test_db_session, song, title=None)
+
+    with pytest.raises(ValueError):
         update_song(test_db_session, song, rating=6)
 
     with pytest.raises(ValueError):
