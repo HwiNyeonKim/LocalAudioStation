@@ -55,6 +55,9 @@ jobs:
 
       - name: Run formatters and check for diffs
         run: |
+          # lint for python codes
+          cd be
+
           autopep8 --in-place --recursive .
           isort .
           black .
