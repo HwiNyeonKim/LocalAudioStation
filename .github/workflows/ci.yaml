@@ -94,3 +94,5 @@ jobs:
 
       - name: Run tests
         run: poetry run pytest
+        env:
+          DATABASE_URL: sqlite:///local_audio_station.db
