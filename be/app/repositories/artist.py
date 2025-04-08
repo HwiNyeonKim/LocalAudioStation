@@ -55,7 +55,7 @@ def update_artist(db: Session, artist: Artist, name: str) -> Artist:
         Artist
     """
     if not name:
-        raise ValueError("이름은 공란으로 만들 수 없다.")
+        raise ValueError("Artist name must be a valid string.")
 
     artist.name = name
     db.commit()
